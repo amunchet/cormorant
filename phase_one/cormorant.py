@@ -2,10 +2,11 @@
 """
 Cormorant Main program
 """
-
+import os
 import spectrogram
 import youtube_dl
 
+DOWNLOAD_DIR="./playlists"
 
 def read_playlists(fname="playlists.txt"):
     """Reads in the Playlists"""
@@ -13,23 +14,36 @@ def read_playlists(fname="playlists.txt"):
         return f.readlines()
 
 
-def parse_playlist(url):
-	"""Parses out the playlist from the url"""
-	ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s.%(ext)s'})
+def download_urls(url):
+    """
+    Downloads a given url
+        - Will download all items in a given playlist
+    """
 
-	with ydl:
-		result = ydl.extract_info(
-			url,
-			download=False # We just want to extract the info
-		)
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'wav',
+            'preferredquality': '192'
+        }],
+        'postprocessor_args': [
+            '-ar', '16000'
+        ],
+        'prefer_ffmpeg': True,
+        'keepvideo': False, 
+    }
 
-	if 'entries' in result:
-		# Can be a playlist or a list of videos
-		video = result['entries'][0]
-	else:
-		# Just a video
-		video = result
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
 
-	print(video)
-	video_url = video['url']
-	print(video_url) 
+    # Move anything downloaded to timestamped directory
+
+    # Make a file with the original URL in it too - url.txt
+    
+def generate_spectrograms():
+    """Generates spectrograms for the given downloaded WAVs"""
+
+def cleanup():
+    """Removes any webm, png files"""
+
