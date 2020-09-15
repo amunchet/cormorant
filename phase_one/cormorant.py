@@ -37,13 +37,13 @@ def download_urls(url):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
 
-    # Move anything downloaded to timestamped directory
+    # TODO: Move anything downloaded to timestamped directory
 
-    # Make a file with the original URL in it too - url.txt
+    # TODO: Make a file with the original URL in it too - url.txt
     
 def generate_spectrograms():
-    """Generates spectrograms for the given downloaded WAVs"""
+    """TODO: Generates spectrograms for the given downloaded WAVs"""
 
 def cleanup():
-    """Removes any webm, png files"""
+    """TODO: Removes any webm, png files"""
 
