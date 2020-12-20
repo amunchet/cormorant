@@ -2,13 +2,13 @@
 Cormorant is part of the Homelab Music Aquisition System (HMAS).
 
 Components of this system include:
-	- VPN - Wireguard to access from Mobile
-	- Airsonic - server for app to access via mobile
-	- Youtubber
-		+ Downloads new additions to playlist (Currently "Not Added Yet")
-		+ [Future] Will download portions of the song based on Youtube comment
+- VPN - Wireguard to access from Mobile
+- Airsonic - server for app to access via mobile
+- Youtubber
+	+ Downloads new additions to playlist (Currently "Not Added Yet")
+	+ [Future] Will download portions of the song based on Youtube comment
 
-	- Cormorant
+- Cormorant
 
 ## Cormorant
 
