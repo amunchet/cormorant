@@ -3,6 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import scipy.io.wavfile as wav
 from numpy.lib import stride_tricks
+import os
 
 """ short time fourier transform of audio signal """
 def stft(sig, frameSize, overlapFac=0.5, window=np.hanning):
@@ -91,3 +92,8 @@ ims = plotstft("test.wav", plotpath="test.png")
 ims = plotstft("bad.wav", plotpath="bad.png")
 ims = plotstft("bad2.wav", plotpath = "bad2.png")
 """
+
+if __name__ == "__main__":
+    for item in [x for x in os.listdir(".") if ".wav" in x]:
+        plotstft(item, plotpath=item + ".png")
+
