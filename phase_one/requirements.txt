@@ -17,4 +17,6 @@ threadpoolctl==2.1.0
 typing-extensions==3.7.4.2
 
 youtube_dl
-
+google-api-python-client
+google_auth_oauthlib
+python-dotenv
