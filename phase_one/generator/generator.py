@@ -38,14 +38,14 @@ def yield_random(length:int, count=10) -> []:
 
     return temp
 
-def select_files(dir:str):
+def select_files(dir:str, count=10):
     """
     Selects the given files
     """
     retval = []
     files = [x for x in os.listdir(dir) if x[-4:] == ".wav"]
 
-    b = yield_random(len(files))
+    b = yield_random(len(files), count=count)
     return [files[x] for x in b]
 
 def combine(filelist:[], cmd="sox", output=""):
@@ -77,11 +77,11 @@ def log(*args): # pragma: no cover
     if VERBOSE:
         print(*args)
 
-def main(num_to_generate, directory=".", tracking_file="tracking.txt"):
+def main(num_to_generate, directory=".", tracking_file="tracking.txt", file_size=100):
     """Main function to run and generate combined wav files"""
     for i in range(0,num_to_generate):
         log("Generating file #", i)
-        combination  = [directory + "/" + x for x in select_files(directory)]
+        combination  = [directory + "/" + x for x in select_files(directory, file_size)]
         log("Combination: ", combination)
         while check(tracking_file, combination):
             combination  = select_files(directory)
