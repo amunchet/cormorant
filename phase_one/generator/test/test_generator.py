@@ -45,7 +45,7 @@ def test_create_combined_wav():
 
     assert found
 
-    a = generator.combine(["data/" + x for x in OUTPUT])
+    a = generator.combine(["data/" + x for x in OUTPUT], output="output.wav")
     
     ref = ['sox', 'data/bass_acoustic_000-025-025.wav', 'data/bass_acoustic_000-029-100.wav', 'data/bass_acoustic_000-025-127.wav', 'data/bass_acoustic_000-029-025.wav', 'data/bass_acoustic_000-024-075.wav', 'data/bass_acoustic_000-027-025.wav', 'data/bass_acoustic_000-025-075.wav', 'data/bass_acoustic_000-025-050.wav', 'data/bass_acoustic_000-024-100.wav', 'data/bass_acoustic_000-026-100.wav', 'output.wav', 'splice', '-h', '2,1']
 
