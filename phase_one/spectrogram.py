@@ -66,12 +66,14 @@ def plotstft(audiopath, binsize=2**10, plotpath=None, colormap="jet"):
 
     plt.figure(figsize=(15, 7.5))
     plt.imshow(np.transpose(ims), origin="lower", aspect="auto", cmap=colormap, interpolation="none")
-    plt.colorbar()
+    # plt.colorbar()
 
-    plt.xlabel("time (s)")
-    plt.ylabel("frequency (hz)")
-    plt.xlim([0, timebins-1])
-    plt.ylim([0, freqbins])
+    # plt.xlabel("time (s)")
+    # plt.ylabel("frequency (hz)")
+    # plt.xlim([0, timebins-1])
+    # plt.ylim([0, freqbins])
+    
+    plt.axis('off')
 
     xlocs = np.float32(np.linspace(0, timebins-1, 5))
     plt.xticks(xlocs, ["%.02f" % l for l in ((xlocs*len(samples)/timebins)+(0.5*binsize))/samplerate])
