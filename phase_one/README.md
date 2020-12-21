@@ -16,15 +16,16 @@ Cormorant is a proactive music acquisition system.  This differs from recommenda
 
 
 ## Requirements
-	- `ffmpeg` must be installed
+- `ffmpeg` must be installed
+- `sox` must be installed	
 
 ## Phases
-	1.  Be able to download a given Youtube playlist
-	2.  Convert to WAV files via ffmpeg
-	3.  Turn into spectograms and label
+1.  Be able to download a given Youtube playlist
+2.  Convert to WAV files via ffmpeg
+3.  Turn into spectograms and label
 
-	4.  Bring into Jupyter notebooks to train first version of network
-		  - Some thoughts: Do we want to classify or regress the score of the song?
+4.  Bring into Jupyter notebooks to train first version of network
+	  - Some thoughts: Do we want to classify or regress the score of the song?
 
-	5.  Deploy - needs frontend to continue online training and rating of songs.
+5.  Deploy - needs frontend to continue online training and rating of songs.
 
