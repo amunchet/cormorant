@@ -35,7 +35,7 @@ def parse_track_list(filename, genres_inp):
             
             combined = [top_genre] + best_genre + genres_all
             for item in combined:
-                if item != "":
+                if item != '' and item != "":
                     combined = item
                     break
             arr[id] = combined
@@ -47,7 +47,7 @@ def list_files(directory:str, tracklist:{}):
     
 
 
-def move_file(pairs, directory:str):
+def copy_file(pairs, directory:str):
     """
     Inputs:
         :pairs - Array of tuples in format (path, genre)
@@ -58,7 +58,13 @@ def move_file(pairs, directory:str):
     """
     
     for (path, genre) in pairs:
-        
+        print("Path:", path, " and genre:", genre)
+        if type(genre) != type(""): # Problem where empty list indicates no genre
+            continue
+        if not os.path.exists(directory + "/" + genre):
+            os.mkdir(directory + "/" + genre)
+
+        shutil.copy(path, directory + "/" + genre)
 
 
 if __name__ == "__main__":
@@ -66,4 +72,5 @@ if __name__ == "__main__":
     # arr = parse_track_list("/mnt/sdf/head.csv", genres)
     tracklist = parse_track_list("/mnt/sdf/tracks.csv", genres)
 
-    print(list_files("/mnt/sdf/fma_large/000", tracklist))
+    listing = list_files("/mnt/sdf/fma_large/000", tracklist)
+    copy_file(listing, "/mnt/sdf/data")
