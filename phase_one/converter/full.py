@@ -9,8 +9,10 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print ("usage: [FOLDER to convert]")
         sys.exit(0)
-    filelist = [x for x in sorted(os.listdir(sys.argv[1])) if ".mp3" in x]
-    for filename in filelist:
+    filelist = [x for x in sorted(os.listdir(sys.argv[1])) if x[-4:] == ".mp3" ]
+    existing = [x for x in sorted(os.listdir(sys.argv[1])) if x[-4:] == ".png" ]
+
+    for filename in [x for x in filelist if x+".png" not in existing]:
         print("Starting for", filename)
 
         print("Converting to wav...")
@@ -21,3 +23,5 @@ if __name__ == "__main__":
 
         print("Deleting wav file...")
         os.remove(sys.argv[1] + "/" + filename.replace(".mp3", ".wav"))
+    
+    print("Done.")

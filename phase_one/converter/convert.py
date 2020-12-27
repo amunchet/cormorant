@@ -4,8 +4,9 @@ Converts Mp3 files to Wav - also repeats them a given number of times
 """
 import os
 import random
+import sys
 
-def run_ffmpeg(fname:str, directory:str):
+def run_ffmpeg(fname:str, directory="$PWD"):
     """Runs the ffmpeg and copies the file a random number of times"""
     filename = fname
     if ".mp3" in fname:
@@ -24,11 +25,12 @@ def run_ffmpeg(fname:str, directory:str):
 
     print("Starting up program for ", fname)
 
-    a = """docker run --rm --runtime=nvidia --volume {}:/workspace jrottenberg/ffmpeg:4.1-nvidia -nostats -loglevel 0 -hwaccel cuvid -i {} /workspace/{}.wav""".format(directory,repl, filename)
+    a = """docker run --rm --name "{}" --runtime=nvidia --volume {}:/workspace jrottenberg/ffmpeg:4.1-nvidia -nostats -loglevel 0 -hwaccel cuvid -i {} /workspace/{}.wav""".format(filename, directory,repl, filename)
     print(a)
     os.system(a)
             
 if __name__ == "__main__":
+
     for filename in [x for x in os.listdir(".") if ".mp3" in x]:
         print("Running for", filename)
         run_ffmpeg(filename)
