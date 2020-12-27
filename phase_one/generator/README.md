@@ -1,3 +1,5 @@
+# OBSOLETED IN FAVOR OF THE FMA LARGE DATASET
+
 # Generator
 This is the script that generates the sample combined WAV files for pre-training the model.
 
