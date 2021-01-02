@@ -6,6 +6,7 @@ import os
 import sys
 import shutil
 import csv
+import re
 
 def load_genres(genres_csv:str):
     """Loads in the genres CSV"""
@@ -57,7 +58,12 @@ def copy_file(pairs, directory:str):
     Also creates folder if it doesn't exist.
     """
     
-    for (path, genre) in pairs:
+    for (path, raw_genre) in pairs:
+        try:
+            genre = re.sub(r'\W+', '', raw_genre)
+        except Exception:
+            print("Uncategorized found")
+            genre = "Uncategorized"
         print("Path:", path, " and genre:", genre)
         if type(genre) != type(""): # Problem where empty list indicates no genre
             continue
@@ -72,5 +78,13 @@ if __name__ == "__main__":
     # arr = parse_track_list("/mnt/sdf/head.csv", genres)
     tracklist = parse_track_list("/mnt/sdf/tracks.csv", genres)
 
-    listing = list_files("/mnt/sdf/fma_large/000", tracklist)
-    copy_file(listing, "/mnt/sdf/data")
+    # listing = list_files("/mnt/sdf/fma_large/000", tracklist)
+    #copy_file(listing, "/mnt/sdf/data")
+    
+    for i in range(0,156):
+        print("Starting for ", i)
+        listing = list_files("""/mnt/sdf/fma_large/{}""".format(str(i).zfill(3)), tracklist)
+        copy_file(listing, "/mnt/sdf/data")
+    
+    print("All done.")
+
