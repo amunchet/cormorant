@@ -14,10 +14,10 @@ def run_ffmpeg(fname:str, directory="$PWD"):
 
     repl = """"concat:"""
 
-    for i in range(0, int((random.random() * 10) % 4)+1):
-        repl += """/workspace/{}.mp3|""".format(filename)
-    
-    print("Repeated ", i, " times")
+    # for i in range(0, int((random.random() * 10) % 4)+1):
+        # repl += """/workspace/{}.mp3|""".format(filename)
+
+    # print("Repeated ", i, " times")
 
     repl += """/workspace/{}.mp3""".format(filename)
     
@@ -25,7 +25,9 @@ def run_ffmpeg(fname:str, directory="$PWD"):
 
     print("Starting up program for ", fname)
 
-    a = """docker run --rm --name "{}" --runtime=nvidia --volume {}:/workspace jrottenberg/ffmpeg:4.1-nvidia -nostats -loglevel 0 -hwaccel cuvid -i {} /workspace/{}.wav""".format(filename, directory,repl, filename)
+#    a = """docker run --rm --name "{}" --runtime=nvidia --volume {}:/workspace jrottenberg/ffmpeg:4.1-nvidia -nostats -loglevel 0 -hwaccel cuvid -i {} /workspace/{}.wav""".format(filename, directory,repl, filename)
+    a = """docker run --rm --volume {}:/workspace jrottenberg/ffmpeg:4.1-nvidia -nostats -loglevel 0 -hwaccel cuvid -i {} /workspace/{}.wav""".format(directory,repl, filename)
+    print(a)
     print(a)
     os.system(a)
             
