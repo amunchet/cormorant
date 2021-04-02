@@ -1,2 +1,3 @@
 #!/bin/bash
-sleep inf
+echo "Starting up..."
+cd /src/backend && python3 serve.py

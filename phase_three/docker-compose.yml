@@ -6,6 +6,8 @@ services:
       - .:/src
     networks:
       - cormorant
+    ports:
+      - 127.0.0.1:7000:7000
   
   mongo:
     image: mongo

@@ -1,2 +1,6 @@
 pytest
 flask
+flask-cors
+python-dotenv
+pymongo
+google-api-python-client
