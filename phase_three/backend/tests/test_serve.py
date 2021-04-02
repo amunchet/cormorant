@@ -18,6 +18,9 @@ def test_list_songs():
 def test_list_related_songs():
     """Lists all songs related to a given song"""
 
+def test_list_first_generation():
+    """Lists the starting generation of songs"""
+
 def test_judge():
     """
     Tests judgement of a song (yes or no)

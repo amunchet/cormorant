@@ -5,18 +5,20 @@ import os
 load_dotenv()
 
 
-api_key = os.getenv("API_KEY")
+def load_related(video_id):
+    """Loads related"""
+    api_key = os.getenv("API_KEY")
 
-api_service_name = "youtube"
-api_version = "v3"
-youtube = build(api_service_name, api_version, developerKey=api_key)
+    api_service_name = "youtube"
+    api_version = "v3"
+    youtube = build(api_service_name, api_version, developerKey=api_key)
 
-request = youtube.search().list(
-    part="snippet",
-    relatedToVideoId="wtLJPvx7-ys",
-    type="video"
-)
-response = request.execute()
+    request = youtube.search().list(
+        part="snippet",
+        # relatedToVideoId="wtLJPvx7-ys",
+        relatedToVideoId=video_id,
+        type="video"
+    )
+    response = request.execute()
 
-print(response)
-
+    return response
