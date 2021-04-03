@@ -6,4 +6,6 @@ flask-cors
 python-dotenv
 pymongo
 google-api-python-client
+youtube_dl
+
 fastai==2.1.*
