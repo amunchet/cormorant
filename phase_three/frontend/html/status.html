@@ -4,7 +4,82 @@
 
 <div>
     This is going to be the visualization of the graph, with parent and children connections.
-    
-    I think we'll use the one that's sponsored or whatever.  This is just more of a visual guide to show how the generations are progressing.
+
+    I think we'll use the one that's sponsored or whatever. This is just more of a visual guide to show how the
+    generations are progressing.
 </div>
+
+<div id="cy">
+
+</div>
+
+<style>
+    #cy{
+        height: 500px;
+        width: 500px;
+        border: 1px solid lightgrey;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.18.1/cytoscape.min.js" type="text/javascript"></script>
+
+<script type='text/javascript'>
+    var cy = cytoscape({
+
+        container: $('#cy'), // container to render in
+
+        elements: [ // list of graph elements to start with
+            { // node a
+                data: {
+                    id: 'a'
+                }
+            },
+            { // node b
+                data: {
+                    id: 'b'
+                }
+            },
+            { // edge ab
+                data: {
+                    id: 'ab',
+                    source: 'a',
+                    target: 'b'
+                }
+            }
+        ],
+
+        style: [ // the stylesheet for the graph
+            {
+                selector: 'node',
+                style: {
+                    'background-color': '#666',
+                    'label': 'data(id)'
+                }
+            },
+            {
+                selector: "#a",
+                style: {
+                    'background-color' : 'green'
+                }
+            },
+            {
+                selector: 'edge',
+                style: {
+                    'width': 3,
+                    'line-color': '#ccc',
+                    'target-arrow-color': '#ccc',
+                    'target-arrow-shape': 'triangle',
+                    'curve-style': 'bezier'
+                }
+            }
+        ],
+
+        layout: {
+            name: 'grid',
+            rows: 2
+        }
+
+    });
+</script>
+
 {% endblock %}
