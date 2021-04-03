@@ -1,0 +1,17 @@
+.mt-1{
+    margin-top: 1rem;
+}
+.mt-2{
+    margin-top: 2rem;
+}
+
+.logo-text{
+    line-height: 42px;
+    margin-left: 10px;
+    font-size: 20pt;
+}
+
+.logo-link{
+    padding-top: 5px !important;
+    padding-left: 10px !important;
+}

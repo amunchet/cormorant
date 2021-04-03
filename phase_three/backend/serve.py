@@ -48,6 +48,23 @@ mongo_client = pymongo.MongoClient(
     )
 )
 
+
+@app.route("/images/<path:path>")
+def static_serve_image(path):
+    return send_from_directory('/src/frontend/images/',path)
+
+@app.route("/css/<path:path>")
+def static_serve_css(path):
+    return send_from_directory('/src/frontend/css/',path)
+
+
+@app.route("/<path:path>")
+def static_serve_html(path):
+    return send_from_directory('/src/frontend/html/',path)
+
+
+
+
 @app.route("/version")
 def version():
     return "0.0.1"
