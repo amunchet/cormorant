@@ -2,9 +2,7 @@
 
 {% block content %}
 
-<div id="cy">
-
-</div>
+<div id="cy"></div>
 
 <style>
     #cy {
@@ -17,112 +15,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.18.1/cytoscape.min.js" type="text/javascript"></script>
 
 <script type='text/javascript'>
-    var cy = cytoscape({
+    jQuery.get("/api/status", val => {
+        var parsed = JSON.parse(val)
+        var cy = cytoscape({
 
-        container: $('#cy'), // container to render in
+            container: $('#cy'), // container to render in
 
-        elements: [ // list of graph elements to start with
-            {
-                data: {
-                    id: 'midpbHJ4EIk',
-                    name: "Rival - Thorne - (ft. Neoni) [NCS Release]"
-                }
-            },
-            {
-                data: {
-                    id: 'uzwUNS0IjC8',
-                    name: "Mendum & Abandoned - Voyage (Feat. DNAKM) [NCS Release]"
-                }
-            },
-            {
-                data: {
-                    name: "Kozah - Cali4nia [NCS Release]",
-                    id: "WgdhRxxXQDk"
-                }
-            },
-            {
-                data: {
-                    name: "Abandoned - Out Of The Grave (Feat. ENROSA) [NCS Release]",
-                    id: "dWOj02nPyxk"
-                }
-            },
-            {
-                data: {
-                    id: 'WgdhRxxXQDk-uzwUNS0IjC8',
-                    source: 'uzwUNS0IjC8',
-                    target: 'WgdhRxxXQDk'
-                }
-            },
-            {
-                data: {
-                    id: 'WgdhRxxXQDk-midpbHJ4EIk',
-                    source: 'midpbHJ4EIk',
-                    target: 'WgdhRxxXQDk'
-                }
-            },
-            {
-                data: {
-                    id: "dWOj02nPyxk-WgdhRxxXQDk",
-                    source: "WgdhRxxXQDk",
-                    target: "dWOj02nPyxk"
-                }
+            elements: parsed[0],
+            style: parsed[1],
+
+            layout: {
+                name: 'breadthfirst',
+                directed: true,
+                padding: 10
             }
-        ],
 
-        style: [ // the stylesheet for the graph
-            {
-                selector: 'node',
-                style: {
-                    'label': 'data(name)',
-                    'background-fit': 'cover',
-                    'border-color': '#000',
-                    'border-width': 3,
-                    'border-opacity': 0.5
-                }
-            },
-            {
-                selector: 'edge',
-                style: {
-                    'width': 3,
-                    'line-color': '#ccc',
-                    'target-arrow-color': '#ccc',
-                    'target-arrow-shape': 'triangle',
-                    'curve-style': 'bezier'
-                }
-            },
-            {
-                selector: "#midpbHJ4EIk",
-                style: {
-                    'background-image': "/youtube/midpbHJ4EIk"
-                },
-            },
-            {
-                selector: "#uzwUNS0IjC8",
-                style: {
-                    'background-image': "/youtube/uzwUNS0IjC8"
-                },
-            },
-            {
-                selector: "#WgdhRxxXQDk",
-                style: {
-                    'background-image': "/youtube/WgdhRxxXQDk"
-                },
-            },
-            {
-                selector: "#dWOj02nPyxk",
-                style: {
-                    'background-image': "/youtube/dWOj02nPyxk"
-                }
-            }
-        ],
-
-        layout: {
-            name: 'breadthfirst',
-            directed: true,
-            padding: 10
-        }
-
-    });
+        });
+    })
 </script>
 
 {% endblock %}

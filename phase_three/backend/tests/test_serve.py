@@ -49,11 +49,12 @@ def teardown():
     for item in [x["youtube_link"] for x in songs]:
         serve.mongo_client["cormorant"]["songs"].delete_one({"youtube_link" : item })
 
-    serve.mongo_client["cormorant"]["stats"].delete({})
+
+    serve.mongo_client["cormorant"]["stats"].delete_many({})
 
 @pytest.fixture
 def client():
-    teardown()
+    # teardown()
 
     
     stats = {
@@ -115,21 +116,21 @@ def test_generate_graph(client):
         },
         {
             "data": {
-                "id": 'WgdhRxxXQDk-uzwUNS0IjC8',
+                "id": 'uzwUNS0IjC8-WgdhRxxXQDk',
                 "source": 'uzwUNS0IjC8',
                 "target": 'WgdhRxxXQDk'
             }
         },
         {
             "data": {
-                "id": 'WgdhRxxXQDk-midpbHJ4EIk',
+                "id": 'midpbHJ4EIk-WgdhRxxXQDk',
                 "source": 'midpbHJ4EIk',
                 "target": 'WgdhRxxXQDk'
             }
         },
         {
             "data": {
-                "id": "dWOj02nPyxk-WgdhRxxXQDk",
+                "id": "WgdhRxxXQDk-dWOj02nPyxk",
                 "source": "WgdhRxxXQDk",
                 "target": "dWOj02nPyxk"
             }
@@ -183,8 +184,17 @@ def test_generate_graph(client):
     ]
     a = client.get("/api/status")
     b = json.loads(a.data.decode("utf-8"))
-    assert b[0] == elements
-    assert b[1] == style
+    for item in elements:
+        assert item in b[0]
+    
+    for item in style:
+        assert item in b[1]
+    
+    for item in b[0]:
+        assert item in elements
+    
+    for item in b[1]:
+        assert item in style
 
 def test_get_current_song():
     """

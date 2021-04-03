@@ -79,7 +79,73 @@ def youtube_thumbnail(path):
     url = """https://img.youtube.com/vi/{}/hqdefault.jpg""".format(path)
     return Response(requests.get(url), mimetype="image/jpeg")
 
+@app.route("/api/status")
+def graph_stats():
+    """Returns Graph stats"""
+    all_songs = [x for x in mongo_client["cormorant"]["songs"].find({})]
 
+    elements = []
+    style = []
+
+    # Elements - nodes
+    temp_elements = []
+    for item in all_songs:
+        if item["youtube_link"] not in temp_elements:
+            elements.append({
+                "data" : {
+                    "id" : item["youtube_link"],
+                    "name" : item["title"]
+                }
+            })
+            temp_elements.append(item["youtube_link"])
+    
+
+    # Elements - connections
+    for item in all_songs:
+        for child in item["children"]:
+            elements.append({
+                "data": {
+                    "id" : item["youtube_link"] + "-" + child,
+                    "source": item["youtube_link"],
+                    "target": child
+                }
+            })
+
+    # Style, static
+    style.append(
+        {
+            "selector" : 'node',
+            "style" : {
+                'label': 'data(name)',
+                'background-fit': 'cover',
+                'border-color': '#000',
+                'border-width': 3,
+                'border-opacity': 0.5
+            }
+        }
+    )
+    style.append(
+        {
+            "selector" : 'edge',
+            "style" : {
+                'width': 3,
+                'line-color': '#ccc',
+                'target-arrow-color': '#ccc',
+                'target-arrow-shape': 'triangle',
+                'curve-style': 'bezier'
+            }
+        })
+
+    # Style, images
+    for item in all_songs:
+        style.append({
+            "selector" : "#" + item["youtube_link"],
+            "style" : {
+                "background-image" : "/youtube/" + item["youtube_link"]
+            }
+        })
+
+    return json.dumps([elements, style], default=str)
 
 @app.route("/version")
 def version():
