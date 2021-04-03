@@ -27,3 +27,6 @@ def test_judge():
         - Need to make sure the files are moved properly and retrained
         - Training won't use GPU (since we aren't guaranteed to have it)
     """
+
+def test_list_unjudged():
+    """Returns list of unjudged songs"""
