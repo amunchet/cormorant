@@ -7,7 +7,7 @@ import functools
 import os
 import datetime
 
-from flask import Flask, request, send_file, send_from_directory, render_template
+from flask import Flask, request, send_file, send_from_directory, render_template, Response
 from flask_cors import CORS
 
 
@@ -19,6 +19,7 @@ import json
 from dotenv import load_dotenv
 
 import pymongo
+import requests
 from bson.objectid import ObjectId
 
 
@@ -79,7 +80,10 @@ def static_serve_css(path):
     return send_from_directory('/src/frontend/css/',path)
 
 
-
+@app.route("/youtube/<path>")
+def youtube_thumbnail(path):
+    url = """https://img.youtube.com/vi/{}/hqdefault.jpg""".format(path)
+    return Response(requests.get(url), mimetype="image/jpeg")
 
 
 

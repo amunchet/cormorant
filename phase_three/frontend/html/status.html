@@ -2,22 +2,15 @@
 
 {% block content %}
 
-<div>
-    This is going to be the visualization of the graph, with parent and children connections.
-
-    I think we'll use the one that's sponsored or whatever. This is just more of a visual guide to show how the
-    generations are progressing.
-</div>
-
 <div id="cy">
 
 </div>
 
 <style>
-    #cy{
-        height: 500px;
-        width: 500px;
-        border: 1px solid lightgrey;
+    #cy {
+        min-height: 500px;
+        width: 90%;
+        margin: 1%;
     }
 </style>
 
@@ -29,21 +22,49 @@
         container: $('#cy'), // container to render in
 
         elements: [ // list of graph elements to start with
-            { // node a
+            {
                 data: {
-                    id: 'a'
+                    id: 'midpbHJ4EIk',
+                    name: "Rival - Thorne - (ft. Neoni) [NCS Release]"
                 }
             },
-            { // node b
+            {
                 data: {
-                    id: 'b'
+                    id: 'uzwUNS0IjC8',
+                    name: "Mendum & Abandoned - Voyage (Feat. DNAKM) [NCS Release]"
                 }
             },
-            { // edge ab
+            {
                 data: {
-                    id: 'ab',
-                    source: 'a',
-                    target: 'b'
+                    name: "Kozah - Cali4nia [NCS Release]",
+                    id: "WgdhRxxXQDk"
+                }
+            },
+            {
+                data: {
+                    name: "Abandoned - Out Of The Grave (Feat. ENROSA) [NCS Release]",
+                    id: "dWOj02nPyxk"
+                }
+            },
+            {
+                data: {
+                    id: 'WgdhRxxXQDk-uzwUNS0IjC8',
+                    source: 'uzwUNS0IjC8',
+                    target: 'WgdhRxxXQDk'
+                }
+            },
+            {
+                data: {
+                    id: 'WgdhRxxXQDk-midpbHJ4EIk',
+                    source: 'midpbHJ4EIk',
+                    target: 'WgdhRxxXQDk'
+                }
+            },
+            {
+                data: {
+                    id: "dWOj02nPyxk-WgdhRxxXQDk",
+                    source: "WgdhRxxXQDk",
+                    target: "dWOj02nPyxk"
                 }
             }
         ],
@@ -52,14 +73,11 @@
             {
                 selector: 'node',
                 style: {
-                    'background-color': '#666',
-                    'label': 'data(id)'
-                }
-            },
-            {
-                selector: "#a",
-                style: {
-                    'background-color' : 'green'
+                    'label': 'data(name)',
+                    'background-fit': 'cover',
+                    'border-color': '#000',
+                    'border-width': 3,
+                    'border-opacity': 0.5
                 }
             },
             {
@@ -71,12 +89,37 @@
                     'target-arrow-shape': 'triangle',
                     'curve-style': 'bezier'
                 }
+            },
+            {
+                selector: "#midpbHJ4EIk",
+                style: {
+                    'background-image': "/youtube/midpbHJ4EIk"
+                },
+            },
+            {
+                selector: "#uzwUNS0IjC8",
+                style: {
+                    'background-image': "/youtube/uzwUNS0IjC8"
+                },
+            },
+            {
+                selector: "#WgdhRxxXQDk",
+                style: {
+                    'background-image': "/youtube/WgdhRxxXQDk"
+                },
+            },
+            {
+                selector: "#dWOj02nPyxk",
+                style: {
+                    'background-image': "/youtube/dWOj02nPyxk"
+                }
             }
         ],
 
         layout: {
-            name: 'grid',
-            rows: 2
+            name: 'breadthfirst',
+            directed: true,
+            padding: 10
         }
 
     });

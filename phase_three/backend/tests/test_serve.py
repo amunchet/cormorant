@@ -5,12 +5,12 @@ Tests for Cormorant Service
 
 import pytest
 import serve
+import json
 
 songs = [
     { # Parent 1
         "title" : "Rival - Thorne - (ft. Neoni) [NCS Release]",
         "youtube_link" : "midpbHJ4EIk",
-        "thumbnail" : "https://img.youtube.com/vi/midpbHJ4EIk/hqdefault.jpg",
         "generation" : 0,
         "parents" : [], 
         "children": ["WgdhRxxXQDk"], 
@@ -20,7 +20,6 @@ songs = [
     { # Parent 2
         "title" : "Mendum & Abandoned - Voyage (Feat. DNAKM) [NCS Release]",
         "youtube_link" : "uzwUNS0IjC8",
-        "thumbnail" : "https://img.youtube.com/vi/uzwUNS0IjC8/hqdefault.jpg",
         "generation" : 0,
         "parents" : [], 
         "children": ["WgdhRxxXQDk"],
@@ -30,7 +29,6 @@ songs = [
     { # Child of Both
         "title" : "Kozah - Cali4nia [NCS Release]",
         "youtube_link" : "WgdhRxxXQDk",
-        "thumbnail" : "https://img.youtube.com/vi/WgdhRxxXQDk/hqdefault.jpg",
         "generation" : 1,
         "parents" : ["uzwUNS0IjC8", "midpbHJ4EIk"], 
         "children": ["dWOj02nPyxk"], 
@@ -39,7 +37,6 @@ songs = [
     { # Child of One
         "title" : "Abandoned - Out Of The Grave (Feat. ENROSA) [NCS Release]",
         "youtube_link" : "dWOj02nPyxk",
-        "thumbnail" : "https://img.youtube.com/vi/dWOj02nPyxk/hqdefault.jpg",
         "generation" : 2,
         "parents" : ["WgdhRxxXQDk"], 
         "children": [], 
@@ -82,14 +79,104 @@ def test_serve_static(client):
     assert a.data.decode("utf-8").split() == open("/src/frontend/css/styles.css").read().split()
 
 
-def test_list_related_songs():
+def test_generate_graph():
     """
-    Lists all songs related to a given song
-        - This is going to be children - maybe parents as well?
-        - Instead, this might be the JSON output for the graph visualization?
+    This is the JSON output for the graph visualization
     """
 
-    song_id = "WgdhRxxXQDk" # Has parents and child
+    elements = [
+        {
+            "data": {
+                "id": 'midpbHJ4EIk',
+                "name": "Rival - Thorne - (ft. Neoni) [NCS Release]"
+            }
+        },
+        {
+            "data": {
+                "id": 'uzwUNS0IjC8',
+                "name": "Mendum & Abandoned - Voyage (Feat. DNAKM) [NCS Release]"
+            }
+        },
+        {
+            "data": {
+                "name": "Kozah - Cali4nia [NCS Release]",
+                "id": "WgdhRxxXQDk"
+            }
+        },
+        {
+            "data": {
+                "name": "Abandoned - Out Of The Grave (Feat. ENROSA) [NCS Release]",
+                "id": "dWOj02nPyxk"
+            }
+        },
+        {
+            "data": {
+                "id": 'WgdhRxxXQDk-uzwUNS0IjC8',
+                "source": 'uzwUNS0IjC8',
+                "target": 'WgdhRxxXQDk'
+            }
+        },
+        {
+            "data": {
+                "id": 'WgdhRxxXQDk-midpbHJ4EIk',
+                "source": 'midpbHJ4EIk',
+                "target": 'WgdhRxxXQDk'
+            }
+        },
+        {
+            "data": {
+                "id": "dWOj02nPyxk-WgdhRxxXQDk",
+                "source": "WgdhRxxXQDk",
+                "target": "dWOj02nPyxk"
+            }
+        }
+    ]
+    style = [
+        {
+            "selector" : 'node',
+            "style" : {
+                'label': 'data(name)',
+                'background-fit': 'cover',
+                'border-color': '#000',
+                'border-width': 3,
+                'border-opacity': 0.5
+            }
+        },
+        {
+            "selector" : 'edge',
+            "style" : {
+                'width': 3,
+                'line-color': '#ccc',
+                'target-arrow-color': '#ccc',
+                'target-arrow-shape': 'triangle',
+                'curve-style': 'bezier'
+            }
+        },
+        {
+            "selector": "#midpbHJ4EIk",
+            "style": {
+                'background-image': "/youtube/midpbHJ4EIk"
+            },
+        },
+        {
+            "selector": "#uzwUNS0IjC8",
+            "style": {
+                'background-image': "/youtube/uzwUNS0IjC8"
+            },
+        },
+        {
+            "selector": "#WgdhRxxXQDk",
+            "style": {
+                'background-image': "/youtube/WgdhRxxXQDk"
+            },
+        },
+        {
+            "selector": "#dWOj02nPyxk",
+            "style": {
+                'background-image': "/youtube/dWOj02nPyxk"
+            }
+        }
+    ]
 
 def test_get_current_song():
     """
