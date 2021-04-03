@@ -17,3 +17,11 @@ def test_find_related():
 
 def test_training():
     """Updates the model and saves a copy as a backup"""
+
+def test_prune():
+    """
+    Tests pruning a branch that hasn't born fruit
+        - Goes through each child to prune
+        - Key will be if there is only one parent, then delete the child.  If there are multiple parents, then just remove the one parent that's being pruned
+        - Also delete the node itself
+    """

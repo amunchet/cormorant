@@ -11,6 +11,7 @@ import judge
 def test_model_exists():
     """Tests that the given model exists"""
     print("If this test fails, then `models/starting_point.pkl` does not exist.  It is not included in the repository since it takes up too much space.")
+    
     assert os.path.exists("models/starting_point.pkl")
 
 def test_judge_song():
@@ -19,9 +20,7 @@ def test_judge_song():
         - Going to just pass in the raw image to judge.  Processing or acquisition are for other parts of the pipeline.
     """
     
-    # Test known `yes`
-    assert not judge.judge("tests/no.png", "models/starting_point.pkl")
-    # Test known `no`
+    assert judge.judge("tests/yes.png", "models/starting_point.pkl")
 
     assert not judge.judge("tests/no.png", "models/starting_point.pkl")
 
