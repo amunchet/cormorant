@@ -6,6 +6,47 @@ Tests for Cormorant Service
 import pytest
 import serve
 
+songs = [
+    { # Parent 1
+        "title" : "Rival - Thorne - (ft. Neoni) [NCS Release]",
+        "youtube_link" : "midpbHJ4EIk",
+        "thumbnail" : "https://img.youtube.com/vi/midpbHJ4EIk/hqdefault.jpg",
+        "generation" : 0,
+        "parents" : [], 
+        "children": ["WgdhRxxXQDk"], 
+        "manual_judgement" : 0,
+        "predicted_judgement" : 1,
+    },
+    { # Parent 2
+        "title" : "Mendum & Abandoned - Voyage (Feat. DNAKM) [NCS Release]",
+        "youtube_link" : "uzwUNS0IjC8",
+        "thumbnail" : "https://img.youtube.com/vi/uzwUNS0IjC8/hqdefault.jpg",
+        "generation" : 0,
+        "parents" : [], 
+        "children": ["WgdhRxxXQDk"],
+        "manual_judgement" : 0,
+        "predicted_judgement" : 1,
+    },
+    { # Child of Both
+        "title" : "Kozah - Cali4nia [NCS Release]",
+        "youtube_link" : "WgdhRxxXQDk",
+        "thumbnail" : "https://img.youtube.com/vi/WgdhRxxXQDk/hqdefault.jpg",
+        "generation" : 1,
+        "parents" : ["uzwUNS0IjC8", "midpbHJ4EIk"], 
+        "children": ["dWOj02nPyxk"], 
+        "predicted_judgement" : 1,
+    },
+    { # Child of One
+        "title" : "Abandoned - Out Of The Grave (Feat. ENROSA) [NCS Release]",
+        "youtube_link" : "dWOj02nPyxk",
+        "thumbnail" : "https://img.youtube.com/vi/dWOj02nPyxk/hqdefault.jpg",
+        "generation" : 2,
+        "parents" : ["WgdhRxxXQDk"], 
+        "children": [], 
+        "predicted_judgement" : 1,
+    },
+]
+
 def teardown():
     """Removes all entries in the Mongo"""
 
@@ -14,39 +55,9 @@ def teardown():
 def client():
     teardown()
 
-    song_1 = {
-        "title" : "Some title",
-        "youtube_link" : "Some link",
-        "thumbnail" : "Some link",
-        "generation" : 0,
-        "parents" : [], # These are the UUIDs
-        "children": [], # These are the UUIDs
-        "manual_judgement" : 0,
-        "predicted_judgement" : 1,
-    }
-    song_2 = {
-        "title" : "Some title",
-        "youtube_link" : "Some link",
-        "thumbnail" : "Some link",
-        "generation" : 0,
-        "parents" : [], # These are the UUIDs
-        "children": [], # These are the UUIDs
-        "manual_judgement" : 0,
-        "predicted_judgement" : 1,
-    }
-    song_3 = {
-        "title" : "Some title",
-        "youtube_link" : "Some link",
-        "thumbnail" : "Some link",
-        "generation" : 0,
-        "parents" : [], # These are the UUIDs
-        "children": [], # These are the UUIDs
-        "manual_judgement" : 0,
-        "predicted_judgement" : 1,
-    }
-
+    
     stats = {
-        "pointer" : "", # UUID - This will indicate the next song to judge.  It will also move up and down the generations as needed.
+        "pointer" : "", # Youtube ID
         "manual_rejected" : 0, # Counted at the time of the manul judgement action
         "manual_accepted" : 0,
         "automatic_rejected" : 0, # This will also only be counted at the time of manual judgement, then never again
@@ -74,8 +85,11 @@ def test_serve_static(client):
 def test_list_related_songs():
     """
     Lists all songs related to a given song
-        - This is going to be children
+        - This is going to be children - maybe parents as well?
+        - Instead, this might be the JSON output for the graph visualization?
     """
+
+    song_id = "WgdhRxxXQDk" # Has parents and child
 
 def test_get_current_song():
     """
