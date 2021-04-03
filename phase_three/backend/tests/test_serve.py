@@ -44,7 +44,7 @@ songs = [
     },
 ]
 
-def teardown():
+def tearDown():
     """Removes all entries in the Mongo"""
     for item in [x["youtube_link"] for x in songs]:
         serve.mongo_client["cormorant"]["songs"].delete_one({"youtube_link" : item })
@@ -54,7 +54,7 @@ def teardown():
 
 @pytest.fixture
 def client():
-    # teardown()
+    tearDown()
 
     
     stats = {
