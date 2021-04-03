@@ -6,6 +6,10 @@ services:
       - .:/src
     networks:
       - cormorant
+    environment:
+      MONGO_USERNAME: root
+      MONGO_PASSWORD: temp
+      MONGO_HOST: mongo
     ports:
       - 127.0.0.1:7000:7000
   

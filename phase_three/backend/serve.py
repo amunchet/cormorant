@@ -32,12 +32,6 @@ CORS(app)
 
 load_dotenv(verbose=True)
 
-if os.environ.get("MONGO_USERNAME") == "":
-    os.environ["MONGO_USERNAME"] = "root"
-if os.environ.get("MONGO_PASSWORD") == "":
-    os.environ["MONGO_PASSWORD"] = "temp"
-if os.environ.get("MONGO_HOST") == "":
-    os.environ["MONGO_HOST"] = "mongo"
 
 
 # Mongo Access

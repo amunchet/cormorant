@@ -46,7 +46,10 @@ songs = [
 
 def teardown():
     """Removes all entries in the Mongo"""
+    for item in [x["youtube_link"] for x in songs]:
+        serve.mongo_client["cormorant"]["songs"].delete_one({"youtube_link" : item })
 
+    serve.mongo_client["cormorant"]["stats"].delete({})
 
 @pytest.fixture
 def client():
@@ -63,14 +66,15 @@ def client():
         "total_judged" : 0, # How many have we judged?
     }
 
-
-
+    for item in songs:
+        serve.mongo_client["cormorant"]["songs"].insert_one(item)
+    
+    serve.mongo_client["cormorant"]["stats"].insert_one(stats)
 
     serve.app.config['TESTING'] = True
     with serve.app.test_client() as client:
         yield client
 
-    teardown()
     return "Done"
 
 def test_serve_static(client):
@@ -79,7 +83,7 @@ def test_serve_static(client):
     assert a.data.decode("utf-8").split() == open("/src/frontend/css/styles.css").read().split()
 
 
-def test_generate_graph():
+def test_generate_graph(client):
     """
     This is the JSON output for the graph visualization
     """
@@ -177,6 +181,10 @@ def test_generate_graph():
             }
         }
     ]
+    a = client.get("/api/status")
+    b = json.loads(a.data.decode("utf-8"))
+    assert b[0] == elements
+    assert b[1] == style
 
 def test_get_current_song():
     """
