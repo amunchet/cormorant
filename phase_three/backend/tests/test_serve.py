@@ -213,8 +213,28 @@ def test_list_current_generation():
 def test_manual_judge():
     """
     Tests manual judgement of a song (yes or no)
-        - Need to make sure the files are moved properly and retrained
+        - Need to make sure the files are moved properly
+        - Yes goes to `yes`, no goes to `no_holding` since we are afraid of imbalance 
     """
+
+    # Set and entry to `yes`
+
+    # Set an entry to `no`
 
 def test_list_unjudged():
     """Returns list of unjudged songs"""
+
+def test_list_no_children():
+    """How many songs have no children?"""
+
+def test_list_no_image():
+    """How many songs have no spectrogram?"""
+
+def test_list_last_training():
+    """When was the model last updated?"""
+
+def test_branches_needing_prune():
+    """How many nodes are marked as dead that have not been deleted?"""
+
+def test_historical_model_performance():
+    """Return the data for historical model performance for the home page"""

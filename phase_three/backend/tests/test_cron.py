@@ -3,20 +3,21 @@
 Tests for periodic tasks related to Cormorant
 """
 
-def test_find_hero():
-    """Finds the hero song to follow related until 0 matches found"""
+def test_one_at_a_time():
+    """Tests that only one instance of cron can run at a time"""
 
-def test_find_next_hero():
-    """
-    Finds the next possible hero (i.e. the sibling of the current hero)
-    Works by going up one generation and selecting the next candidate
-    """
 
-def test_find_related():
-    """Returns a list of related songs and their judgements for review"""
+def test_populate_children():
+    """Finds songs without children and populates them"""
+
+def test_download_waiting():
+    """Codifies the waiting songs that don't exist yet"""
 
 def test_training():
-    """Updates the model and saves a copy as a backup"""
+    """
+    Updates the model and saves a copy as a backup
+        - This is fairly intense.  Needs to balance with the ones from no-holding.  No-holding will probably have all the files, and a random amount will be brought over for model updating
+    """
 
 def test_prune():
     """
@@ -25,3 +26,6 @@ def test_prune():
         - Key will be if there is only one parent, then delete the child.  If there are multiple parents, then just remove the one parent that's being pruned
         - Also delete the node itself
     """
+
+def test_snapshot_model_performance():
+    """Snapshot the model performance and store it in the database for another graph"""
