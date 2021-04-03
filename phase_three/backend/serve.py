@@ -7,7 +7,7 @@ import functools
 import os
 import datetime
 
-from flask import Flask, request, send_file, send_from_directory
+from flask import Flask, request, send_file, send_from_directory, render_template
 from flask_cors import CORS
 
 
@@ -22,7 +22,7 @@ import pymongo
 from bson.objectid import ObjectId
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="/src/frontend/html")
 CORS(app)
 
 
@@ -48,6 +48,27 @@ mongo_client = pymongo.MongoClient(
     )
 )
 
+MENU = [
+    "home",
+    "judge",
+    "status",
+    "playlist",
+    "settings"
+]
+
+@app.route("/")
+@app.route("/<path>")
+def serve_index(path=""):
+    """Serves the index"""
+
+
+    
+    if path == "":
+        return render_template("home.html", active="home", menu=MENU)
+    else:
+        if path.isalpha():
+            return render_template(path + ".html", active=path, menu=MENU)
+        return "Invalid information", 407
 
 @app.route("/images/<path:path>")
 def static_serve_image(path):
@@ -58,9 +79,6 @@ def static_serve_css(path):
     return send_from_directory('/src/frontend/css/',path)
 
 
-@app.route("/<path:path>")
-def static_serve_html(path):
-    return send_from_directory('/src/frontend/html/',path)
 
 
 

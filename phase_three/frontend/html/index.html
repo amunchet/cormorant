@@ -33,22 +33,18 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Judge</a></li>
-        <li><a href="#">Status</a></li>
-        <li><a href="#">Playlist</a></li>
-        <li><a href="#">Settings</a></li>
+        {% for item in menu %}
+        <li
+        {% if item == active %}
+            class="active"
+        {% endif %}
+        ><a href="/{{item}}">{{item.capitalize()}}</a></li>
+        {% endfor %}
+
        </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-[Prediction rate %]<br />
-[Graph #1 - Yes vs No Manual] <br />
-[Graph #2 - Yes vs No Predicted] <br />
-[# of Songs reviewed]<br />
-<br /><br />
-
-We also might do a time series of the model's performance, with cron snapshotting rates every day or so.
-
+{% block content %}{% endblock %}
 </body>
 </html>
