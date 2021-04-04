@@ -8,7 +8,7 @@ import os
 load_dotenv()
 
 
-def load_related(video_id): # pragma: no cover
+def load_related(video_id, maxResults=10): # pragma: no cover
     """Loads related"""
     api_key = os.getenv("API_KEY")
 
@@ -21,11 +21,10 @@ def load_related(video_id): # pragma: no cover
         # relatedToVideoId="wtLJPvx7-ys",
         relatedToVideoId=video_id,
         type="video",
-        maxResults=10
+        maxResults=maxResults
     )
     response = request.execute()
-
-    return response
+    return [(x["snippet"]["title"], x["id"]["videoId"]) for x in response["items"] if "snippet" in x]
 
 def load_playlist(playlist_id): # pragma: no cover
     """Loads playlist id"""
