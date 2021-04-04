@@ -212,12 +212,49 @@ def test_get_current_song(client):
     }
     """
     a = json.loads(client.get("/api/current_song").data.decode("utf-8"))
-    print(a)
     assert "youtube_link" in a
     assert a["youtube_link"]
 
     assert "title" in a
     assert "predicted_judgement" in a
+
+def test_manual_judge(client):
+    """
+    Tests manual judgement of a song (yes or no)
+        - Need to make sure the files are moved properly
+        - Yes goes to `yes`, no goes to `no_holding` since we are afraid of imbalance 
+        - We also want to save the Youtube id to another database
+    """
+    link = "WgdhRxxXQDk"
+    # Set and entry to `yes`
+
+    # TODO: I also need parsed images
+
+    a = serve.mongo_client["cormorant"]["songs"].find_one({"youtube_link" : link})
+    assert "manual_judgement" not in a
+
+
+    client.get("/api/judge/" + link + "/yes")
+
+    a = serve.mongo_client["cormorant"]["songs"].find_one({"youtube_link" : link})
+
+    assert "manual_judgement" in a
+    assert a["manual_judgement"] == 1
+
+    # TODO: Need to have file movement
+    assert False
+
+
+    # Set an entry to `no`
+
+    client.get("/api/judge/" + link + "/no")
+    a = serve.mongo_client["cormorant"]["songs"].find_one({"youtube_link" : link})
+
+    assert "manual_judgement" in a
+    assert a["manual_judgement"] == 0
+
+    # TODO: I need to have file movement
+    assert False
 
 def test_list_current_generation():
     """
@@ -225,17 +262,6 @@ def test_list_current_generation():
         - The original generation is going to be everyone without a parent
     """
 
-def test_manual_judge():
-    """
-    Tests manual judgement of a song (yes or no)
-        - Need to make sure the files are moved properly
-        - Yes goes to `yes`, no goes to `no_holding` since we are afraid of imbalance 
-        - We also want to save the Youtube id to another database
-    """
-
-    # Set and entry to `yes`
-
-    # Set an entry to `no`
 
 def test_list_success():
     """
