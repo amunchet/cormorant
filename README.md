@@ -11,3 +11,10 @@ Cormorant does not do this.  Instead, Cormorant will attempt to look at the spec
 1.  Viability - Spectrogram test and spider test for youtube.
 2.  Training the Autoencoder
 3.  Setting up data - songs I like, songs I don't.  Probably want an interface and some kind of backend - Mongo?
+
+
+# Production
+
+## Pre-Reqs
+- A built model - either a sample one that will be trained, or a pre-trained from the previous steps
+- Youtube API key put into `.env`.  This isn't hard to make - requires some work with the Google Apps Engine, I believe.
