@@ -40,8 +40,8 @@ def main(youtube_id): # pragma: no cover
         spectrogram.plotstft(youtube_id + ".mp3", plotpath= youtube_id + ".png")
 
         print("Deleting mp3 and wav file...")
-        os.system("rm " + youtube_id + ".mp3 || true")
-        os.system("rm " + youtube_id + ".wav || true")
+        os.system("rm *" + youtube_id + ".mp3 || true")
+        os.system("rm *" + youtube_id + ".wav || true")
 
         print("Moving file...")
         os.system("""mv {}.png {}""".format(youtube_id, DOWNLOAD_PATH))

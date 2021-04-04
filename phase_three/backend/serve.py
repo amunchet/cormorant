@@ -150,6 +150,19 @@ def graph_stats():
 
     return json.dumps([elements, style], default=str)
 
+@app.route("/api/current_song")
+def current_song():
+    """Returns current song"""
+    a = mongo_client["cormorant"]["songs"].find({"predicted_judgement" : {"$exists" : True}, "manual_judgement" : {"$exists" : True}})
+    return json.dumps([
+        {
+            "youtube_link" : x["youtube_link"],
+            "title" : x["title"],
+            "predicted_judgement": x["predicted_judgement"]
+        }
+        for x in a
+    ][0], default=str), 200
+
 @app.route("/version")
 def version():
     return "0.0.1"

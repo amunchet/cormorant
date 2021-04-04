@@ -48,7 +48,8 @@ def list_missing_images(count=5, directory="/src/data/incoming", models_director
     """Returns list of missing images.  Default limit is 5"""
 
     # Need to list everything that hasn't been automatically judged yet
-    a = [x["youtube_link"] for x in mongo_client["cormorant"]["songs"].find({"predicted_judgement" : {"$ne" : 1}})][:count]
+    a = [x["youtube_link"] for x in mongo_client["cormorant"]["songs"].find({"predicted_judgement" : {"$exists" : True}})][:count]
+
 
     for song in a:
         ac.main(song)

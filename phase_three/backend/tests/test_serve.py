@@ -199,13 +199,25 @@ def test_generate_graph(client):
     # for item in b[1]:
     #    assert item in style
 
-def test_get_current_song():
+def test_get_current_song(client):
     """
     Returns the current song to be judged, as determined by the pointer
     
     - If the pointer isn't defined, then set it to an item in the...newest generation?  
 
+    {
+        "youtube_link" : "",
+        "title" : "",
+        "predicted_judgement" : ""
+    }
     """
+    a = json.loads(client.get("/api/current_song").data.decode("utf-8"))
+    print(a)
+    assert "youtube_link" in a
+    assert a["youtube_link"]
+
+    assert "title" in a
+    assert "predicted_judgement" in a
 
 def test_list_current_generation():
     """
