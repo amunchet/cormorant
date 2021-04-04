@@ -74,7 +74,18 @@ def static_serve_image(path):
 
 @app.route("/incoming/<path:path>")
 def incoming_images(path):
-    return send_from_directory('/src/data/incoming/',path)
+    dir_path = "/src/data/incoming"
+    if os.path.exists(dir_path + path):
+        return send_from_directory(dir_path,path)
+    
+    dir_path = "/src/data/no_holding/"
+    if os.path.exists(dir_path + path):
+        return send_from_directory(dir_path,path)
+    
+    dir_path = "/src/data/training/yes/"
+    if os.path.exists(dir_path + path):
+        return send_from_directory(dir_path,path)
+    
 
 
 
@@ -180,6 +191,11 @@ def current_song():
 @app.route("/api/judge/<link>/<action>")
 def api_judge(link, action):
     """Applies Manual Judgement to a given song"""
+    if action == "yes":
+        os.system("mv /src/data/incoming/" + link + ".png /src/data/training/yes/")
+    else:
+        os.system("mv /src/data/incoming/" + link + ".png /src/data/no_holding/")
+
     return mongo_client["cormorant"]["songs"].update({"youtube_link" : link}, {"$set" : {"manual_judgement" : int(action == 'yes')}})
 
 @app.route("/api/run/children")
