@@ -2,9 +2,16 @@
 """
 Handles Periodic Tasks for Cormorant
 """
-from serve import mongo_client
+import os
 import json
+
 import spider
+import judge
+from serve import mongo_client
+from acquisition import main as ac
+
+
+# Children Section
 
 def list_judged_no_children():
     """Lists Judged entries without children"""
@@ -35,3 +42,22 @@ def add_children(): # pragma: no cover
         update_with_children(item, [x[1] for x in b])
         for j in b:
             insert_child(title=j[0], youtube_link=j[1], parent=item, generation=generation)
+
+# Images Section
+def list_missing_images(count=5, directory="/src/data/incoming", models_directory="/src/data/models/"):
+    """Returns list of missing images.  Default limit is 5"""
+
+    # Need to list everything that hasn't been automatically judged yet
+    a = [x["youtube_link"] for x in mongo_client["cormorant"]["songs"].find({"predicted_judgement" : {"$ne" : 1}})][:count]
+
+    for song in a:
+        ac.main(song)
+
+        judgement = judge.judge(directory + "/" + song + ".png", models_directory + "/" + "current.pkl")
+
+        mongo_client["cormorant"]["songs"].update_one({"youtube_link": song}, {"$set" : {"predicted_judgement" : int(judgement)}})
+
+
+
+def download_evaluate_missing_images(): # pragma: no cover
+    """Downloads and evaluates the missing images"""

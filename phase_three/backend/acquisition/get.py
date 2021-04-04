@@ -3,7 +3,6 @@
 Cormorant Main program
 """
 import os
-import spectrogram
 import youtube_dl
 
 

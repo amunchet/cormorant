@@ -1,10 +1,21 @@
 #!/usr/bin/env python3
 """Full conversion and cleanup from mp3 to spectrogram"""
 import os
-import spectrogram
-import convert
 import sys
-import get
+
+try:
+    import spectrogram
+except ModuleNotFoundError:
+    from acquisition import spectrogram
+
+try:
+    import convert
+except ModuleNotFoundError:
+    from acquisition import convert
+try:
+    import get
+except ModuleNotFoundError:
+    from acquisition import get 
 
 
 DOWNLOAD_PATH ="/src/data/incoming/"

@@ -12,5 +12,5 @@ def run_ffmpeg(fname:str): # pragma: no cover
     if ".mp3" in fname:
         filename = filename.replace(".mp3", "")
 
-    cmd = """ffmpeg  -nostats -loglevel 0  -i {}.mp3 {}.wav""".format(fname, fname)
+    cmd = """ffmpeg  -nostats -loglevel 0 -t 00:05:00 -i {}.mp3 {}.wav""".format(fname, fname)
     os.system(cmd)
