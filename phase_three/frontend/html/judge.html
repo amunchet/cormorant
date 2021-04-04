@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="margin-auto text-center">
+<div class="margin-auto text-center" id='main'>
     <h2 id="title"></h2>
     <iframe id="iframe" width="25%" height=200px src="https://www.youtube.com/embed/LINK" title="YouTube video player"
         frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -19,31 +19,34 @@
     <div id="predicted"></div>
 
     <script type='text/javascript'>
-        $.get("/api/current_song", (val) => {
-            var iframe_src = $("#iframe").attr("src")
-            var rec = JSON.parse(val)
-            $("h2#title").html(rec.title)
-            $("img#parsed").attr("src", $("img#parsed").attr("src") + rec.youtube_link + ".png")
-            $("#iframe").attr("src", iframe_src.replace("LINK", rec.youtube_link))
+        $.ajax({
+            url: "/api/current_song",
+            type: "GET",
+            success: (val) => {
+                var iframe_src = $("#iframe").attr("src")
+                var rec = JSON.parse(val)
+                $("h2#title").html(rec.title)
+                $("img#parsed").attr("src", $("img#parsed").attr("src") + rec.youtube_link + ".png")
+                $("#iframe").attr("src", iframe_src.replace("LINK", rec.youtube_link))
 
-            $("#predicted").html(rec.predicted_jugement)
+                $("#predicted").html(rec.predicted_jugement)
 
-            $("#yes").click(()=>{
-                $.get("/api/judge/" + rec.youtube_link + "/yes", ()=>{
-                    window.location.reload()
-                })
-            })
-
-            $("#no").click(()=>{
-                $.get("/api/judge/" + rec.youtube_link + "/no", ()=>{
-                    window.location.reload()
+                $("#yes").click(() => {
+                    $.get("/api/judge/" + rec.youtube_link + "/yes", () => {
+                        window.location.reload()
+                    })
                 })
 
-            })
+                $("#no").click(() => {
+                    $.get("/api/judge/" + rec.youtube_link + "/no", () => {
+                        window.location.reload()
+                    })
 
-
+                })
+            },
+            error: () => {
+                $("#main").html("No eligible songs found for judgement.")
+            }
         })
-
-        
     </script>
     {% endblock %}
