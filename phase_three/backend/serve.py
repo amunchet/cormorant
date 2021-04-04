@@ -74,7 +74,7 @@ def static_serve_image(path):
 
 @app.route("/incoming/<path:path>")
 def incoming_images(path):
-    dir_path = "/src/data/incoming"
+    dir_path = "/src/data/incoming/"
     if os.path.exists(dir_path + path):
         return send_from_directory(dir_path,path)
     
@@ -125,7 +125,7 @@ def graph_stats():
 
     # Elements - connections
     for item in all_songs:
-        for child in item["children"]:
+        for child in [x for x in item["children"] if x in temp_elements]:
             elements.append({
                 "data": {
                     "id" : item["youtube_link"] + "-" + child,
