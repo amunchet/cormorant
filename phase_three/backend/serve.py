@@ -56,14 +56,17 @@ MENU = [
 def serve_index(path=""):
     """Serves the index"""
 
-
-    
     if path == "":
         return render_template("home.html", active="home", menu=MENU)
     else:
         if path.isalpha():
             return render_template(path + ".html", active=path, menu=MENU)
         return "Invalid information", 407
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_file("/src/frontend/favicon.ico")
+
 
 @app.route("/images/<path:path>")
 def static_serve_image(path):
