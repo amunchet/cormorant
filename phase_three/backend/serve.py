@@ -47,8 +47,8 @@ MENU = [
     "home",
     "judge",
     "status",
-    "raw",
-    "settings"
+    "all",
+    "actions"
 ]
 
 @app.route("/")
