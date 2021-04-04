@@ -3,7 +3,9 @@
 Handles Periodic Tasks for Cormorant
 """
 import os
+import sys
 import json
+import datetime
 
 import spider
 import judge
@@ -60,5 +62,19 @@ def list_missing_images(count=5, directory="/src/data/incoming", models_director
 
 
 
-def download_evaluate_missing_images(): # pragma: no cover
-    """Downloads and evaluates the missing images"""
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Needs an argument.")
+        sys.exit(1)
+    
+    print(datetime.datetime.now())
+    if sys.argv[1] == "images":
+        print("Starting images...")
+        list_missing_images()
+        print("Image download completed.")
+    
+    elif sys.argv[1] == "children":
+        print("Starting add children...")
+        add_children()
+        print("Children addition completed.")
+    
