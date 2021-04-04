@@ -9,12 +9,14 @@
         allowfullscreen></iframe>
     <br />
     <div class="text-center mt-2">
-        <button class="btn btn-success">YES</button>
+        <button id='yes' class="btn btn-success">YES</button>
         &nbsp;&nbsp;
-        <button class="btn btn-danger">NO</button>
+        <button id='no' class="btn btn-danger">NO</button>
     </div>
     <br />
     <img width=25% id="parsed" src="/incoming/" alt="Cormorant Displayed image" />
+    <br />
+    <div id="predicted"></div>
 
     <script type='text/javascript'>
         $.get("/api/current_song", (val) => {
@@ -23,6 +25,25 @@
             $("h2#title").html(rec.title)
             $("img#parsed").attr("src", $("img#parsed").attr("src") + rec.youtube_link + ".png")
             $("#iframe").attr("src", iframe_src.replace("LINK", rec.youtube_link))
+
+            $("#predicted").html(rec.predicted_jugement)
+
+            $("#yes").click(()=>{
+                $.get("/api/judge/" + rec.youtube_link + "/yes", ()=>{
+                    window.location.reload()
+                })
+            })
+
+            $("#no").click(()=>{
+                $.get("/api/judge/" + rec.youtube_link + "/no", ()=>{
+                    window.location.reload()
+                })
+
+            })
+
+
         })
+
+        
     </script>
     {% endblock %}

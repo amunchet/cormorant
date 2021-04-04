@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<div id='replace'>
+</div>
+<script type="text/javascript">
+    var retval = "<table class='table'>"
+        retval += "<thead>"
+            retval += "<tr>"
+                retval += "<th scope='col'>#</th>"
+                retval += "<th scope='col'>Title</th>"
+                retval += "<th scope='col'>Generation</th>"
+                retval += "<th scope='col'>Manual</th>"
+                retval += "<th scope='col'>Predicted</th>"
+                retval += "<th scope='col'>Children</th>"
+                retval += "<th scope='col'>Parents</th>"
+                retval += "<th scope='col'>Predicted</th>"
+            retval += "</tr>"
+        retval += "</thead>"
+        retval += "<tbody>"
+
+    $.get("/api/all_songs", (val)=>{
+        JSON.parse(val).forEach(x=>{
+            retval += "<tr>"
+                retval += "<td><img src='/youtube/" + x.youtube_link + "' alt='Youtube thumbnail' height=100px /></td>"
+                retval += "<td>" + x.title + "</td>"
+                retval += "<td>" + x.generation + "</td>"
+                retval += "<td>" + x.manual_judgement + "</td>"
+                retval += "<td>" + x.predicted_judgement + "</td>"
+                retval += "<td>" + x.children + "</td>"
+                retval += "<td>" + x.parents + "</td>"
+                retval += "<td><img height=100px src='/incoming/" + x.youtube_link + ".png' alt='Cormorant image' /></td>"
+
+            retval += "</tr>"
+        })
+        retval += "</tbody></table>"
+        $("#replace").html(retval)
+    })
+</script>
+{% endblock %}

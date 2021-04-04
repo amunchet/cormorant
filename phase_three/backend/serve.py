@@ -47,7 +47,7 @@ MENU = [
     "home",
     "judge",
     "status",
-    "playlist",
+    "raw",
     "settings"
 ]
 
@@ -87,6 +87,9 @@ def static_serve_css(path):
 def youtube_thumbnail(path):
     url = """https://img.youtube.com/vi/{}/hqdefault.jpg""".format(path)
     return Response(requests.get(url), mimetype="image/jpeg")
+
+
+# API Section
 
 @app.route("/api/status")
 def graph_stats():
@@ -156,10 +159,15 @@ def graph_stats():
 
     return json.dumps([elements, style], default=str)
 
+@app.route("/api/all_songs")
+def api_all_songs():
+    a = mongo_client["cormorant"]["songs"].find({})
+    return json.dumps([x for x in a], default=str), 200
+
 @app.route("/api/current_song")
 def current_song():
     """Returns current song"""
-    a = mongo_client["cormorant"]["songs"].find({"predicted_judgement" : {"$exists" : True}, "manual_judgement" : {"$exists" : True}})
+    a = mongo_client["cormorant"]["songs"].find({"predicted_judgement" : {"$exists" : True}, "manual_judgement" : {"$exists" : False}})
     return json.dumps([
         {
             "youtube_link" : x["youtube_link"],
@@ -168,6 +176,39 @@ def current_song():
         }
         for x in a
     ][0], default=str), 200
+
+@app.route("/api/judge/<link>/<action>")
+def api_judge(link, action):
+    """Applies Manual Judgement to a given song"""
+    return mongo_client["cormorant"]["songs"].update({"youtube_link" : link}, {"$set" : {"manual_judgement" : int(action == 'yes')}})
+
+@app.route("/api/run/children")
+def run_children():
+    os.system("dos2unix /src/backend/cron.py")
+    os.system("/src/backend/cron.py children 2>&1 > /tmp/children.txt &")
+    return "Success", 200
+
+@app.route("/api/read/children")
+def read_children():
+    if os.path.exists("/tmp/children.txt"):
+        with open("/tmp/children.txt") as f:
+            return "<br />".join(f.readlines()), 200
+    else:
+        return "-", 200
+
+@app.route("/api/run/images")
+def run_images():
+    os.system("dos2unix /src/backend/cron.py")
+    os.system("/src/backend/cron.py images 2>&1 > /tmp/images.txt &")
+    return "Success", 200
+
+@app.route("/api/read/images")
+def read_images():
+    if os.path.exists("/tmp/images.txt"):
+        with open("/tmp/images.txt") as f:
+            return "<br />".join(f.readlines()), 200
+    else:
+        return "-", 200
 
 @app.route("/version")
 def version():
