@@ -1,0 +1,69 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class='main'>
+  <div class="row">
+    <div class="col col-md-4">
+        <h3>Images and Predictions</h3>
+        <button class="btn btn-primary m-2" id="image_button">Run Images and Predictions</button>
+        <div id='images_info'></div>
+    </div>
+    <div class="col col-md-4">
+        <h3>Children</h3>
+        <button class="btn btn-primary m-2" id="children_button">Run Add Children</button>
+        <div id='children_info'></div>
+    </div>
+    <div class="col col-md-4">
+        <h3>Model</h3>
+
+    </div>
+  </div>
+</div>
+<script type='text/javascript'>
+    $("#image_button").click(()=>{
+        $.get("/api/run/images")
+    })
+    $("#children_button").click(()=>{
+        $.get("/api/run/children")
+    })
+    setInterval(()=>{
+        $.get("/api/read/images", val=>{
+            $("#images_info").html(val)
+            var element = document.getElementById("images_info");
+            element.scrollTop = element.scrollHeight - element.clientHeight;
+        })
+    }, 2000)
+
+    setInterval(()=>{
+        $.get("/api/read/children", val=>{
+            $("#children_info").html(val)
+            var element = document.getElementById("children_info");
+            element.scrollTop = element.scrollHeight - element.clientHeight;
+        })
+    }, 2000)
+</script>
+<style>
+    .main{
+        width: 90%;
+        margin: auto;
+    }
+    .col{
+        border-right:1px solid grey;
+        padding: 1rem;
+        text-align: center;
+        min-height: 400px;
+    }
+    #images_info, #children_info{
+        height: 400px;
+        overflow-y: scroll;
+        text-align: left;
+        background-color: lightgrey;
+        padding: 10px;
+        padding-top: 5px;
+    }
+    .m-2{
+        margin: 2rem;
+    }
+</style>
+
+{% endblock %}
