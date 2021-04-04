@@ -2,15 +2,27 @@
 
 {% block content %}
 
-<div>
-    This is just the embedded media player (are we going to play the full video or just an audio?  Easier to just do embedded video)
+<div class="margin-auto text-center">
+    <h2 id="title"></h2>
+    <iframe id="iframe" width="25%" height=200px src="https://www.youtube.com/embed/LINK" title="YouTube video player"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    <br />
+    <div class="text-center mt-2">
+        <button class="btn btn-success">YES</button>
+        &nbsp;&nbsp;
+        <button class="btn btn-danger">NO</button>
+    </div>
+    <br />
+    <img width=25% id="parsed" src="/incoming/" alt="Cormorant Displayed image" />
 
-    2 buttons - Yes, No
-
-    I don't want to see the prediction naturally, since that could bias
-
-    I do want to see the image though to make sure it's there.
-
-    This will eventually be changed to reflect ONLY predicted yes'.  Right now we're training on all items at first, but then we'll go to just the likely.
-</div>
-{% endblock %}
+    <script type='text/javascript'>
+        $.get("/api/current_song", (val) => {
+            var iframe_src = $("#iframe").attr("src")
+            var rec = JSON.parse(val)
+            $("h2#title").html(rec.title)
+            $("img#parsed").attr("src", $("img#parsed").attr("src") + rec.youtube_link + ".png")
+            $("#iframe").attr("src", iframe_src.replace("LINK", rec.youtube_link))
+        })
+    </script>
+    {% endblock %}

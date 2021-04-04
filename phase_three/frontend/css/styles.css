@@ -15,3 +15,7 @@
     padding-top: 5px !important;
     padding-left: 10px !important;
 }
+.margin-auto{
+    margin: auto;
+    width: 90%;
+}

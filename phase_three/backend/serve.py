@@ -72,6 +72,12 @@ def favicon():
 def static_serve_image(path):
     return send_from_directory('/src/frontend/images/',path)
 
+@app.route("/incoming/<path:path>")
+def incoming_images(path):
+    return send_from_directory('/src/data/incoming/',path)
+
+
+
 @app.route("/css/<path:path>")
 def static_serve_css(path):
     return send_from_directory('/src/frontend/css/',path)
