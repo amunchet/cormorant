@@ -215,11 +215,17 @@ def test_manual_judge():
     Tests manual judgement of a song (yes or no)
         - Need to make sure the files are moved properly
         - Yes goes to `yes`, no goes to `no_holding` since we are afraid of imbalance 
+        - We also want to save the Youtube id to another database
     """
 
     # Set and entry to `yes`
 
     # Set an entry to `no`
+
+def test_list_success():
+    """
+    Returns all songs found and judged yes - saved in a separate database
+    """
 
 def test_list_unjudged():
     """Returns list of unjudged songs"""
