@@ -3,6 +3,7 @@
 Tests for Cormorant Service
 """
 
+import os
 import pytest
 import serve
 import json
@@ -228,7 +229,10 @@ def test_manual_judge(client):
     link = "WgdhRxxXQDk"
     # Set and entry to `yes`
 
-    # TODO: I also need parsed images
+    if os.path.exists("/src/data/incoming/" + link + ".png"):
+        os.system("rm /src/data/incoming/" + link + ".png")
+    with open("/src/data/incoming/" + link + ".png", "w") as f:
+        f.write("hello!")
 
     a = serve.mongo_client["cormorant"]["songs"].find_one({"youtube_link" : link})
     assert "manual_judgement" not in a
@@ -240,9 +244,12 @@ def test_manual_judge(client):
 
     assert "manual_judgement" in a
     assert a["manual_judgement"] == 1
+    assert os.path.exists("/src/data/training/yes/" + link + ".png")
 
-    # TODO: Need to have file movement
-    assert False
+    if os.path.exists("/src/data/incoming/" + link + ".png"):
+        os.system("rm /src/data/incoming/" + link + ".png")
+    with open("/src/data/incoming/" + link + ".png", "w") as f:
+        f.write("hello!")
 
 
     # Set an entry to `no`
@@ -253,8 +260,11 @@ def test_manual_judge(client):
     assert "manual_judgement" in a
     assert a["manual_judgement"] == 0
 
-    # TODO: I need to have file movement
-    assert False
+    assert os.path.exists("/src/data/no_holding/" + link + ".png")
+    os.system("rm /src/data/no_holding/" + link + ".png")
+    os.system("rm /src/data/training/yes/" + link + ".png")
+
+
 
 def test_list_current_generation():
     """
