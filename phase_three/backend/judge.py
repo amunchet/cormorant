@@ -22,3 +22,25 @@ def judge(image_path, model_path) -> bool:
         return -1
     return output == 'yes'
 
+def train(epochs=5):
+    """Trains and returns a model"""
+    DIR = "/src/data/training"
+    DATASET_PATH = Path(DIR)
+    size = 512
+    bs = 8
+
+    datablock = DataBlock(
+        get_items=get_image_files,
+        get_y=parent_label,
+        blocks=(ImageBlock, CategoryBlock),
+        item_tfms=Resize(700),
+        batch_tfms=aug_transforms(size=700, min_scale=0.85),
+        splitter=RandomSplitter(valid_pct=0.2, seed=100)
+    )
+    dls = datablock.dataloaders(DATASET_PATH, bs=bs, size=size)
+    learn = load_learner("/src/data/models/current.pkl")
+    learn.dls = dls
+
+    learn.fine_tune(epochs)
+
+    return learn
