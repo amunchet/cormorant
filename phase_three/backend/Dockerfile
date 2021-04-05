@@ -11,7 +11,7 @@ RUN apt-get install -y tzdata
 RUN ln -fs /usr/share/zoneinfo/America/Chicago/etc/localtime
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-RUN apt install ffmpeg
+RUN apt install -y ffmpeg
 
 COPY requirements.txt /
 RUN pip3 install -r /requirements.txt
