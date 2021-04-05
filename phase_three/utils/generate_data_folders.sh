@@ -6,6 +6,7 @@ mkdir /src/data/
 mkdir /src/data/incoming
 mkdir /src/data/models
 mkdir /src/data/no_holding
+mkdir /src/data/yes_holding
 
 mkdir /src/data/training
 mkdir /src/data/training/no

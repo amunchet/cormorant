@@ -244,7 +244,7 @@ def test_manual_judge(client):
 
     assert "manual_judgement" in a
     assert a["manual_judgement"] == 1
-    assert os.path.exists("/src/data/training/yes/" + link + ".png")
+    assert os.path.exists("/src/data/yes_holding/" + link + ".png")
 
     if os.path.exists("/src/data/incoming/" + link + ".png"):
         os.system("rm /src/data/incoming/" + link + ".png")
@@ -262,8 +262,17 @@ def test_manual_judge(client):
 
     assert os.path.exists("/src/data/no_holding/" + link + ".png")
     os.system("rm /src/data/no_holding/" + link + ".png")
-    os.system("rm /src/data/training/yes/" + link + ".png")
+    os.system("rm /src/data/yes_holding/" + link + ".png")
 
+
+def test_list_training_balance(client):
+    """Lists the total number of training items in both yes and no holding"""
+    a = client.get("/api/training_balance")
+    
+    yes_holding = len([x for x in os.listdir("/src/data/yes_holding")])
+    no_holding = len([x for x in os.listdir("/src/data/no_holding")])
+
+    assert a.data.decode('utf-8') == str([yes_holding, no_holding])
 
 
 def test_list_current_generation():

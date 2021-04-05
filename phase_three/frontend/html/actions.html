@@ -7,25 +7,44 @@
         <h3>Images and Predictions</h3>
         <button class="btn btn-primary m-2" id="image_button">Run Images and Predictions</button>
         <div id='images_info'></div>
+        <div class="m-2">
+            Number of images to build: 
+            <input id="image_count" value="5" type="text" size=3/>
+
+        </div>
     </div>
     <div class="col col-md-4">
         <h3>Children</h3>
         <button class="btn btn-primary m-2" id="children_button">Run Add Children</button>
-        <div id='children_info'></div>
+        <div id='children_info' value=5></div>
     </div>
     <div class="col col-md-4">
         <h3>Model</h3>
+               <button class="btn btn-primary m-2" id="model_button">Run Model Generation</button>
+        <div id="model_info"></div>
+ <h4 class="col-md-6" id="yes_count">
+        </h4>
+        <h4 class="col-md-6" id="no_count">
+        </h4>
 
     </div>
   </div>
 </div>
 <script type='text/javascript'>
     $("#image_button").click(()=>{
-        $.get("/api/run/images")
+        var count = $("#image_count").val()
+        $.get("/api/run/images/" + count)
     })
     $("#children_button").click(()=>{
         $.get("/api/run/children")
     })
+
+    $.get("/api/training_balance", (val)=>{
+        var a = JSON.parse(val)
+        $("#yes_count").html("Yes Count: " + a[0])
+        $("#no_count").html("No Count: " + a[1])
+    })
+
     setInterval(()=>{
         $.get("/api/read/images", val=>{
             $("#images_info").html(val)
@@ -53,7 +72,7 @@
         text-align: center;
         min-height: 400px;
     }
-    #images_info, #children_info{
+    #images_info, #children_info, #model_info{
         height: 400px;
         overflow-y: scroll;
         text-align: left;

@@ -82,7 +82,7 @@ def incoming_images(path):
     if os.path.exists(dir_path + path):
         return send_from_directory(dir_path,path)
     
-    dir_path = "/src/data/training/yes/"
+    dir_path = "/src/data/yes_holding/"
     if os.path.exists(dir_path + path):
         return send_from_directory(dir_path,path)
     
@@ -170,6 +170,13 @@ def graph_stats():
 
     return json.dumps([elements, style], default=str)
 
+@app.route("/api/training_balance")
+def api_training_balance():
+    """Returns the current training data balance"""
+    yes_holding = len([x for x in os.listdir("/src/data/yes_holding")])
+    no_holding = len([x for x in os.listdir("/src/data/no_holding")])
+
+    return json.dumps([yes_holding, no_holding]), 200
 @app.route("/api/all_songs")
 def api_all_songs():
     a = mongo_client["cormorant"]["songs"].find({})
@@ -192,7 +199,7 @@ def current_song():
 def api_judge(link, action):
     """Applies Manual Judgement to a given song"""
     if action == "yes":
-        os.system("mv /src/data/incoming/" + link + ".png /src/data/training/yes/")
+        os.system("mv /src/data/incoming/" + link + ".png /src/data/yes_holding/")
     else:
         os.system("mv /src/data/incoming/" + link + ".png /src/data/no_holding/")
 
@@ -212,10 +219,11 @@ def read_children():
     else:
         return "-", 200
 
-@app.route("/api/run/images")
-def run_images():
+@app.route("/api/run/images/<int:count>")
+def run_images(count):
     os.system("dos2unix /src/backend/cron.py")
-    os.system("/src/backend/cron.py images 2>&1 > /tmp/images.txt &")
+    count = int(count)
+    os.system("/src/backend/cron.py images " + str(count) + " 2>&1 > /tmp/images.txt &")
     return "Success", 200
 
 @app.route("/api/read/images")

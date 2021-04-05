@@ -68,9 +68,9 @@ if __name__ == '__main__':
         sys.exit(1)
     
     print(datetime.datetime.now())
-    if sys.argv[1] == "images":
+    if sys.argv[1] == "images" and len(sys.argv) > 2:
         print("Starting images...")
-        list_missing_images()
+        list_missing_images(count=int(sys.argv[2]))
         print("Image download completed.")
     
     elif sys.argv[1] == "children":
@@ -78,3 +78,6 @@ if __name__ == '__main__':
         add_children()
         print("Children addition completed.")
     
+    else:
+        print("Incorrect parameter")
+        
