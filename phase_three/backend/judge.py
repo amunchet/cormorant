@@ -38,9 +38,47 @@ def train(epochs=5):
         splitter=RandomSplitter(valid_pct=0.2, seed=100)
     )
     dls = datablock.dataloaders(DATASET_PATH, bs=bs, size=size)
+
+    # TODO: Rename to be user specific
     learn = load_learner("/src/data/models/current.pkl")
     learn.dls = dls
 
-    learn.fine_tune(epochs)
+    # learn.fine_tune(epochs)
+    last_rate = -1
+    current_rate = 0
+    while current_rate > last_rate:
+        print("Saving model...")
 
+        # TODO: Rename to be user specific
+        learn.export("/tmp/model.pkl")
+        print("Fitting...")
+        learn.fine_tune(1)
+
+        preds,y_hat,_ = learn.get_preds(with_loss=True)
+        count = 0
+        for i in range(0,len(preds)):
+            count += int(bool(y_hat[i]) == bool(preds[i][0] < preds[i][1]))
+        
+
+        last_rate = current_rate
+        current_rate = 1.0 * count / len(preds)
+
+        print("Last_rate:", last_rate)
+        print("Current rate:", current_rate)
+
+    print("Out of loop")
+    print("Loading back in...")
+
+    # TODO: Rename to be user specific
+    learn = load_learner("/tmp/model.pkl")
+    learn.dls = dls
+    preds,y_hat,_ = learn.get_preds(with_loss=True)
+    count = 0
+    for i in range(0,len(preds)):
+        count += int(bool(y_hat[i]) == bool(preds[i][0] < preds[i][1]))
+    
+    current_rate = 1.0 * count / len(preds)
+    print("Current rate:", current_rate)
+
+    print("Done")
     return learn
