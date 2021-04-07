@@ -27,13 +27,17 @@ def update_with_children(youtube_link, children):
 
 def insert_child(title, youtube_link, parent, generation):
     """Inserts a child into the database"""
-    return mongo_client["cormorant"]["songs"].insert_one({
+    if(mongo_client["cormorant"]["songs"].find_one({"youtube_link":youtube_link})):
+        return "Already found"
+
+    a = mongo_client["cormorant"]["songs"].insert_one({
         "title" : title,
         "youtube_link" : youtube_link,
         "parents" : [parent],
         "children" : [],
         "generation" : int(generation) + 1
     })
+    return a
 
 
 def add_children(): # pragma: no cover

@@ -24,7 +24,19 @@ def test_populate_children(client):
     # Obviously, we are ignoring the code that actually goes and finds the children
     # Test inserting a found child
 
+    assert len([x for x in mongo_client["cormorant"]["songs"].find({"youtube_link" : "asdfasf"})]) == 0
+
     cron.insert_child("Test", "asdfasf", "parent", 1)
+
+    assert len([x for x in mongo_client["cormorant"]["songs"].find({"youtube_link" : "asdfasf"})]) == 1
+
+    cron.insert_child("Test", "asdfasf", "parent", 1)
+
+    assert len([x for x in mongo_client["cormorant"]["songs"].find({"youtube_link" : "asdfasf"})]) == 1
+
+
+
+
 
     a = mongo_client["cormorant"]["songs"].find_one({"title" : "Test"})
 
@@ -44,7 +56,7 @@ def test_populate_children(client):
 
 
 
-def test_download_waiting():
+def download_waiting():
     """Codifies the waiting songs that don't exist yet"""
 
     # Any existing song that doesn't have a matching image needs to be acquired - only if it doesn't have an automatic judgement
@@ -60,6 +72,7 @@ def test_download_waiting():
     a = cron.list_missing_images()
     assert "WgdhRxxXQDk" not in a
     """
+    pass
 
 def training():
     """
