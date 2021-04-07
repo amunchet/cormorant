@@ -75,6 +75,7 @@ if __name__ == '__main__':
     if sys.argv[1] == "images" and len(sys.argv) > 2:
         print("Starting images...")
         list_missing_images(count=int(sys.argv[2]))
+        os.system("rm *.part *.mp3 *.wav *.m4a")
         print("Image download completed.")
     
     elif sys.argv[1] == "children":
