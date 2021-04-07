@@ -3,6 +3,8 @@
 Determination using the model of whether a song is 'yes' or 'no'
 """
 import sys
+import os
+import datetime
 from fastai.imports import *
 from fastai.vision import *
 from fastai.vision.all import *
@@ -79,6 +81,14 @@ def train(epochs=5):
     
     current_rate = 1.0 * count / len(preds)
     print("Current rate:", current_rate)
+
+    # TODO: Rename to be user speicific
+    os.system("rm /tmp/model.pkl")
+
+    print("Moving model into place...")
+    now = str(datetime.datetime.now()).replace(" ", "..")
+    os.system("mv /src/data/models/current.pkl /src/data/models/current.pkl-" + now)
+    learn.export("/src/data/models/current.pkl")
 
     print("Done")
     return learn
