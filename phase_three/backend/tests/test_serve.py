@@ -275,32 +275,40 @@ def test_list_training_balance(client):
     assert a.data.decode('utf-8') == str([yes_holding, no_holding])
 
 
-def test_list_current_generation():
+def list_current_generation():
     """
     Lists the current generation of songs
         - The original generation is going to be everyone without a parent
     """
+    pass
 
 
-def test_list_success():
+def list_success():
     """
     Returns all songs found and judged yes - saved in a separate database
     """
+    pass
 
-def test_list_unjudged():
+def list_unjudged():
     """Returns list of unjudged songs"""
+    pass
 
-def test_list_no_children():
+def list_no_children():
     """How many songs have no children?"""
+    pass
 
-def test_list_no_image():
+def list_no_image():
     """How many songs have no spectrogram?"""
+    pass
 
-def test_list_last_training():
+def list_last_training():
     """When was the model last updated?"""
+    pass
 
-def test_branches_needing_prune():
+def branches_needing_prune():
     """How many nodes are marked as dead that have not been deleted?"""
+    pass
 
-def test_historical_model_performance():
+def historical_model_performance():
     """Return the data for historical model performance for the home page"""
+    pass

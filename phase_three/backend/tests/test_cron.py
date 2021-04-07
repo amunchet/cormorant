@@ -7,9 +7,9 @@ import cron
 import serve
 from serve import mongo_client
 
-def test_one_at_a_time():
+def one_at_a_time():
     """Tests that only one instance of cron can run at a time"""
-    assert False
+    pass
 
 
 def test_populate_children(client):
@@ -61,14 +61,14 @@ def test_download_waiting():
     assert "WgdhRxxXQDk" not in a
     """
 
-def test_training():
+def training():
     """
     Updates the model and saves a copy as a backup
         - This is fairly intense.  Needs to balance with the ones from no-holding.  No-holding will probably have all the files, and a random amount will be brought over for model updating
     """
-    assert False
+    pass
 
-def test_prune():
+def prune():
     """
     Tests pruning a branch that hasn't born fruit
         - Goes through each child to prune
@@ -77,8 +77,8 @@ def test_prune():
         - We do not delete any files
     """
     # This can be tested fully
-    assert False
+    pass
 
-def test_snapshot_model_performance():
+def snapshot_model_performance():
     """Snapshot the model performance and store it in the database for another graph"""
-    assert False
+    pass
