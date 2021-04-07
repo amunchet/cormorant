@@ -112,6 +112,7 @@ def graph_stats():
 
     # Elements - nodes
     temp_elements = []
+    manual_judgements = {}
     for item in all_songs:
         if item["youtube_link"] not in temp_elements:
             elements.append({
@@ -121,17 +122,29 @@ def graph_stats():
                 }
             })
             temp_elements.append(item["youtube_link"])
+        
+        if "manual_judgement" in item:
+            manual_judgements[item["youtube_link"]] = item["manual_judgement"]
     
 
     # Elements - connections
     for item in all_songs:
         for child in [x for x in item["children"] if x in temp_elements]:
+            if child not in manual_judgements:
+                selected_class = "grey"
+            else:
+                if str(manual_judgements[child]) == "1":
+                    selected_class = "green"
+                else:
+                    selected_class = "red"
+                
             elements.append({
                 "data": {
                     "id" : item["youtube_link"] + "-" + child,
                     "source": item["youtube_link"],
                     "target": child
-                }
+                },
+                "classes" : selected_class
             })
 
     # Style, static
@@ -149,11 +162,33 @@ def graph_stats():
     )
     style.append(
         {
-            "selector" : 'edge',
+            "selector" : '.grey',
             "style" : {
                 'width': 3,
                 'line-color': '#ccc',
                 'target-arrow-color': '#ccc',
+                'target-arrow-shape': 'triangle',
+                'curve-style': 'bezier'
+            }
+        })
+    style.append(
+        {
+            "selector" : '.green',
+            "style" : {
+                'width': 3,
+                'line-color': 'green',
+                'target-arrow-color': 'green',
+                'target-arrow-shape': 'triangle',
+                'curve-style': 'bezier'
+            }
+        })
+    style.append(
+        {
+            "selector" : '.red',
+            "style" : {
+                'width': 3,
+                'line-color': 'red',
+                'target-arrow-color': 'red',
                 'target-arrow-shape': 'triangle',
                 'curve-style': 'bezier'
             }

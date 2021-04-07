@@ -121,21 +121,24 @@ def test_generate_graph(client):
                 "id": 'uzwUNS0IjC8-WgdhRxxXQDk',
                 "source": 'uzwUNS0IjC8',
                 "target": 'WgdhRxxXQDk'
-            }
+            },
+            "classes" : "grey"
         },
         {
             "data": {
                 "id": 'midpbHJ4EIk-WgdhRxxXQDk',
                 "source": 'midpbHJ4EIk',
                 "target": 'WgdhRxxXQDk'
-            }
+            },
+            "classes" : "grey"
         },
         {
             "data": {
                 "id": "WgdhRxxXQDk-dWOj02nPyxk",
                 "source": "WgdhRxxXQDk",
                 "target": "dWOj02nPyxk"
-            }
+            },
+            "classes" : "green"
         }
     ]
     style = [
@@ -150,11 +153,31 @@ def test_generate_graph(client):
             }
         },
         {
-            "selector" : 'edge',
+            "selector" : '.grey',
             "style" : {
                 'width': 3,
                 'line-color': '#ccc',
                 'target-arrow-color': '#ccc',
+                'target-arrow-shape': 'triangle',
+                'curve-style': 'bezier'
+            }
+        },
+        {
+            "selector" : '.green',
+            "style" : {
+                'width': 3,
+                'line-color': 'green',
+                'target-arrow-color': 'green',
+                'target-arrow-shape': 'triangle',
+                'curve-style': 'bezier'
+            }
+        },
+        {
+            "selector" : '.red',
+            "style" : {
+                'width': 3,
+                'line-color': 'red',
+                'target-arrow-color': 'red',
                 'target-arrow-shape': 'triangle',
                 'curve-style': 'bezier'
             }
@@ -186,6 +209,7 @@ def test_generate_graph(client):
     ]
     a = client.get("/api/status")
     b = json.loads(a.data.decode("utf-8"))
+
     for item in elements:
         assert item in b[0]
     
