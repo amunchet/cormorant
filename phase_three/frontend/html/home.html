@@ -1,14 +1,185 @@
 {% extends 'index.html' %}
 
 {% block content %}
-[Prediction rate %]<br />
-[Graph #1 - Yes vs No Manual] <br />
-[Graph #2 - Yes vs No Predicted] <br />
-[# of Songs reviewed]<br />
-<br /><br />
 
-We also might do a time series of the model's performance, with cron snapshotting rates every day or so.
 
-Number without children, Number without images, Number waiting to be deleted, last time the model was updated
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<div class="container">
+    <div class="row">
+        <div class="col col-md-4 center">
+            <h1>[Prediction rate %]</h1>
 
+            <h4>[# of Songs reviewed]</h4>
+        </div>
+        <div class="col col-md-4">
+            <div>
+                <canvas height="600" width="600" id="pie-chart-1"></canvas>
+            </div>
+        </div>
+        <div class="col col-md-4">
+            <div>
+                <canvas height="600" width="600" id="pie-chart-2"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="middle">
+
+    <canvas height="50" width="350" id="line-chart"></canvas>
+</div>
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col col-md-3">
+            <h2>2342</h2>
+            <h4># without children</h4>
+        </div>
+        <div class="col col-md-3">
+            <h2>2342</h2>
+            <h4># without images</h4>
+        </div>
+        <div class="col col-md-3">
+            <h2>2342</h2>
+            <h4># waiting to be deleted</h4>
+        </div>
+        <div class="col col-md-3">
+            <h2>2342</h2>
+            <h4>last model update</h4>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    // Line chart
+    var ctx = document.getElementById('line-chart').getContext('2d');
+    const labels = ["A", "B", "C", "D", "E", "F"]
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'My First Dataset',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    };
+    const config = {
+        type: 'line',
+        data: data,
+    };
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'We also might do a time series of the models performance, with cron snapshotting rates every day or so.',
+                position: 'top',
+                fontSize: 16,
+                padding: 20
+            },
+            scales: {}
+        }
+    });
+
+    // 1st Pie Chart
+    var ctx_pie = document.getElementById('pie-chart-1').getContext('2d');
+    const pie_data = {
+        labels: [
+            'NO',
+            'YES',
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [50, 100],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+            ],
+            hoverOffset: 4
+        }]
+    };
+    var pieChart = new Chart(ctx_pie, {
+        type: 'doughnut',
+        data: pie_data,
+        options: {
+            legend: {},
+            title: {
+                display: true,
+                text: 'Yes vs No (Predicted)',
+                position: 'top',
+                fontSize: 16,
+                padding: 20
+            },
+            scales: {}
+        }
+    });
+
+
+    // 2nd Pie Chart
+    var ctx_pie_2 = document.getElementById('pie-chart-2').getContext('2d');
+    const pie_data_2 = {
+        labels: [
+            'NO',
+            'YES',
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [70, 100],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+            ],
+            hoverOffset: 4
+        }]
+    };
+    var pieChart_2 = new Chart(ctx_pie_2, {
+        type: 'doughnut',
+        data: pie_data_2,
+        options: {
+            legend: {},
+            title: {
+                display: true,
+                text: 'Yes vs No (Manual)',
+                position: 'top',
+                fontSize: 16,
+                padding: 20
+            },
+            scales: {}
+        }
+    });
+</script>
+<style>
+    .col-md-4{
+        min-height: 400px;
+    }
+    .col-md-3{
+        min-height: 300px;
+        line-height: 100px;
+    }
+    .col {
+        background-color: #efefed;
+        text-align: center;
+        border:1px solid white;
+    }
+
+    .middle {
+        margin-top: 2rem;
+        text-align: center;
+        width: 90%;
+        margin: auto;
+    }
+    h1{
+        line-height: 200px;
+    }
+    h2{
+        line-height: 200px;
+    }
+</style>
 {% endblock %}
